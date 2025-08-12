@@ -9,7 +9,7 @@ After installing Arch Linux, I wanted to set up a tool to automate the creation 
 
 I had used Timeshift previously and knew it had support for Btrfs, so I initially tried to configure it. However, because my subvolume layout doesn't match what Timeshift expects, this approach was fruitless. I decided to use `btrbk` instead. While `btrbk` doesn't have a graphical UI like Timeshift, I figured it's not necessary since you don't normally need to browse backups graphically, and the snapshots are easily accessible in the `/.snapshots` directory anyway.
 
-To set up `btrbk` is fairly straight forwards, just follow these steps
+To set up `btrbk` is fairly straightforward, just follow these steps
 1. Install btrbk from the official repository
    `sudo pacman -S btrbk`
 2. Configure btrbk, by editing the primary configuration file:
@@ -44,7 +44,8 @@ To set up `btrbk` is fairly straight forwards, just follow these steps
    
    /usr/bin/btrbk run # Runs a complete, new backup
    /usr/bin/btrbk clean # Cleans old backups locally and remotelly
-   /usr/bin/btrbk resume # Resumes transfer if, at any point a backup has been taken without being transfered to a target. ```
+   /usr/bin/btrbk resume # Resumes transfer if, at any point a backup has been taken without being transfered to a target.
+   ```
 4. Create a systemd service file
    `sudo vi /etc/systemd/system/btrbk-hourly.service`
    ```ini

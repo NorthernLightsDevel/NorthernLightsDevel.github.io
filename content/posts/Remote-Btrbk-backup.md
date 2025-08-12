@@ -43,19 +43,7 @@ mkfs.btrfs /dev/mapper/backupdisk
 ```bash
 UUID=<UUID-of-backupdisk> /mnt/backups btrfs rw,norelatime,compress=zstd:3,space_cache=v2 0 0
 ```
-# 2. Create Backup Subvolumes
-Create a separate subvolume for each client:
-```bash
-mount /mnt/backups
-btrfs su cr /mnt/backups/backuphost
-btrfs su cr /mnt/backups/laptop
-btrfs su cr /mnt/backups/desktop
-...
-```
-
-# 3. Create a dedicated Backup user
-To avoid root needing to log in over SSH
-## 3.1 Create backup user to receive backups on the backup host
+## 1.5 Create backup user to receive backups on the backup host
    ```bash
    useradd -m -U backupuser
    chown backupuser:backupuser /mnt/backups/*
@@ -69,7 +57,7 @@ To avoid root needing to log in over SSH
    logout
    # Now we are back at the root shell.
    ```
-## 3.2 Give backupuser access to execute required commands as root on the backup host
+## 1.6 Give backupuser access to execute required commands as root on the backup host
    ```bash
    visudo -f /etc/sudoers.d/btrbk_permissions
    ```
@@ -78,11 +66,23 @@ To avoid root needing to log in over SSH
    backupuser ALL=(root) NOPASSWD: /usr/sbin/btrfs *
    backupuser ALL=(root) NOPASSWD: /usr/bin/readlink *
    ```
-## 3.3 Create backup user to send backups on each source machine
+# 2. Create Backup Subvolumes
+Create a separate subvolume for each client:
+```bash
+mount /mnt/backups
+btrfs su cr /mnt/backups/backuphost
+btrfs su cr /mnt/backups/laptop
+btrfs su cr /mnt/backups/desktop
+...
+```
+
+# 3. Create a dedicated Backup user
+To avoid root needing to log in over SSH
+## 3.1 Create backup user to send backups on each source machine
    ```bash
    useradd -m -U backupuser
    ```
-## 3.4 Give backupuser access to execute btrbk commands as root on each source machine
+## 3.2 Give backupuser access to execute btrbk commands as root on each source machine
    ```bash
    visudo -f /etc/sudoers.d/btrbk_permissions
    ```

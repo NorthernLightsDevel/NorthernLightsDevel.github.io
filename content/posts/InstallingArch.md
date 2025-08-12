@@ -39,7 +39,7 @@ author = 'Per Øyvind Håvelsrud'
         $ timedatectl set-ntp true
         ```
 1.  ## Disk preparation
-    1.  ### Erase the disk securelly and format to the desired partition layout
+    1.  ### Erase the disk securely and format to the desired partition layout
         If your disk contains sensitive data, you can securely erase it. This step is optional for new drives.
         * For NVME SSDs
           ```bash
@@ -61,19 +61,19 @@ author = 'Per Øyvind Håvelsrud'
           ```
     
     1.  ### Partition the disk
-        We will create 2 partitions in this guide, where the first is teh EFI partition, and the second is the encrypted btrfs partition where the remainding files are stored
+        We will create 2 partitions in this guide, where the first is the EFI partition, and the second is the encrypted btrfs partition where the remaining files are stored
         > Example partition layout
         >  ```fdisk
         >  Id  Size              Type              Filesystem 
         >  1   1GiB              EFI(ef00)         FAT 32
-        >  2   Remainding space  Linux LUKS(8309)  LUKS
+        >  2   Remaining space  Linux LUKS(8309)  LUKS
         >  ```
         ```bash
         $ gdisk /dev/nvme0n1
         ```
         > Create a new GPT partition header with `o` option
         > Create a new 1GB *EFI* partion with the `n` option and set code to `ef00`
-        > Create a new Linux LUKS partition for the remainding disk space with the `n` option and set code to `8309`
+        > Create a new Linux LUKS partition for the remaining disk space with the `n` option and set code to `8309`
         > Save the partition layout with the `w` option, this will exit gdisk simultaneously.
     
     1.  ### Format the EFI partition
@@ -93,8 +93,8 @@ author = 'Per Øyvind Håvelsrud'
     
     1.  ### Create and mount the encrypted partition
         ```bash
-        $ cryptsetup lumsFormat /dev/nvme0n1p2 --pbkdf pbkdf2 --hash sha256
-        $ cryptsetuo open /dev/nvme0n1p2 arch
+        $ cryptsetup luksFormat /dev/nvme0n1p2 --pbkdf pbkdf2 --hash sha256
+        $ cryptsetup open /dev/nvme0n1p2 arch
         ```
     1.  ### Create the btrfs file system and set up subvolumes
         ```bash
@@ -113,13 +113,13 @@ author = 'Per Øyvind Håvelsrud'
         > NOTE: some mount options like noatime and ssd should be omitted if you use a normal drive, compression can 
         > in addition be tuned if you want a different compression level than the default of 3
         ```bash
-        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@ /dev/mapper/root /mnt
-        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@boot /dev/mapper/root /mnt/boot
-        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@root /dev/mapper/root /mnt/root
-        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@home /dev/mapper/root /mnt/home
-        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@.snapshots /dev/mapper/root /mnt/.snapshots
-        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@log /dev/mapper/root /mnt/var/log
-        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@pkg /dev/mapper/root /mnt/var/cache/pacman/pkg
+        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@ /dev/mapper/arch /mnt
+        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@boot /dev/mapper/arch /mnt/boot
+        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@root /dev/mapper/arch /mnt/root
+        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@home /dev/mapper/arch /mnt/home
+        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@.snapshots /dev/mapper/arch /mnt/.snapshots
+        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@log /dev/mapper/arch /mnt/var/log
+        $ mount --mkdir -o ssd,noatime,compress=zstd,subvol=@pkg /dev/mapper/arch /mnt/var/cache/pacman/pkg
         $ mount --mkdir /dev/nvme0n1p1 /mnt/efi
         ```
 1.  ## System Installation
@@ -182,10 +182,10 @@ author = 'Per Øyvind Håvelsrud'
         $ nvim /etc/default/grub
         ```
         ### Go to the line GRUB_CMDLINE_LINUX(line 6) and edit to use an encrypted disk
-        > NOTE: Ensure to replace `$((blkid -s UUID -o value /dev/nvme0n1p2))` with the actial UUID reported by the command.
+        > NOTE: Ensure to replace  <your-root-uuid> with the actual UUID reported by the `blkid` command.
 
         ```
-        GRUB_CMDLINE_LINUX="loglevel=3 quiet cryptdevice=UUID=$((blkid -s UUID -o value /dev/nvme0n1p2)):arch cryptkey=rootfs:/etc/cryptsetup-keys.d/arch.key"
+        GRUB_CMDLINE_LINUX="loglevel=3 quiet cryptdevice=UUID=<your-root-uuid>:arch cryptkey=rootfs:/etc/cryptsetup-keys.d/arch.key"
         ```
         ### Go to the line `# GRUB_ENABLE_CRYPTDISL=y`(line 13) and uncomment
     
@@ -211,7 +211,7 @@ author = 'Per Øyvind Håvelsrud'
         $ useradd -m -G wheel -U {username}
         $ passwd {username}
         ```
-    1.  ## Fetch this repo and install the rest of the tools reqired
+    1.  ## Fetch this repo and install the rest of the tools required
         ```bash
         $ su {username}
         $ mkdir .git
@@ -222,7 +222,7 @@ author = 'Per Øyvind Håvelsrud'
         $ sudo systemctl enable gdm
         $ sudo systemctl enable NetworkManager
         ```
-    1. ## Exit fakeroot, unmount disk and reboot
+    1. ## Exit chroot, unmount disk and reboot
         ```bash
         $ logout
         $ exit
