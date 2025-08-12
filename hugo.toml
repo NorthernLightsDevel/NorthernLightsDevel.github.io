@@ -1,0 +1,82 @@
+baseURL = "https://example.org/"
+languageCode = "en-us"
+title = "NorthernLightsDev"
+theme = ["PaperMod", "NorthernLightsDev"]
+
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[pagination]
+  pagerSize = 5
+
+[params]
+  env = "production"
+  title = "NorthernLightsDev"
+  description = "A blog about C# development, Linux sysadmin, and other tech musings."
+  keywords = ["Blog", "C#", ".NET", "Linux", "SysAdmin", "Portfolio"]
+  author = 'Per Øyvind Håvelsrud'
+  DateFormat = "January 2, 2006"
+  defaultTheme = "auto"
+  disableThemeToggle = false
+
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = true
+  ShowRssButtonInSectionTermList = true
+  UseHugoToc = true
+  disableSpecial1stPost = false
+  disableScrollToTop = false
+  comments = false
+  hidemeta = false
+  hideSummary = false
+  showtoc = false
+  tocopen = false
+
+  mainSections = ["posts"] # This is the key change
+
+  [params.label]
+    text = "NorthernLightsDev"
+    icon = "images/logo.png"
+    iconHeight = 35
+
+  [params.homeInfoParams]
+    Title = "Welcome to NorthernLightsDev"
+    Content = "A blog exploring the worlds of C# development, Linux system administration, and personal tech projects. Grab a coffee and stay awhile!"
+
+  [[params.socialIcons]]
+    name= "github"
+    url= "https://github.com/peroyhav"
+  [[params.socialIcons]]
+    name= "linkedin"
+    url= "https://www.linkedin.com/in/peroyvindh/"
+
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    location = 0
+    distance = 1000
+    threshold = 0.4
+    minMatchCharLength = 0
+    keys = ["title", "permalink", "summary", "content"]
+
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    name = "Posts"
+    url = "/"
+    weight = 10
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = true
+    style = "monokai"

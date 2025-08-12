@@ -1,0 +1,20 @@
+/* themes/NorthernLightsDev/assets/css/extended/custom.css */
+/* =========================================
+    NorthernLightsDev Custom Theme
+=========================================
+This file extends the PaperMod theme to create a unique look 
+inspired by the aurora borealis.
+*/
+
+
+* --- Custom Banner for Homepage --- */
+.home-info {
+    background-image: url('/images/banner.png');
+    background-size: cover;
+    background-position: center;
+    padding: 60px 20px; /* Adjust padding to your liking */
+    border-radius: var(--radius);
+    color: white; /* Change text color for better readability */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add a shadow to the text */
+}
+

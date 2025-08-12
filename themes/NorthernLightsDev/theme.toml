@@ -1,0 +1,18 @@
+# themes/NorthernLightsDev/theme.toml
+name = "NorthernLightsDev"
+license = "MIT"
+licenselink = "https://github.com/adityatelange/hugo-PaperMod/blob/master/LICENSE"
+description = "A custom theme for NorthernLightsDev, based on PaperMod."
+homepage = "https://github.com/adityatelange/hugo-PaperMod"
+tags = ["blog", "portfolio", "personal", "clean", "minimalist", "responsive", "dark-mode", "light-mode"]
+features = ["cover-image", "search", "archives", "tags", "categories", "social-icons", "toc", "light-dark-mode"]
+min_version = "0.81.0"
+
+[author]
+  name = "Per Øyvind Håvelsrud"
+  homepage = "havelsrud.com"
+
+[original]
+  name = "PaperMod"
+  homepage = "https://github.com/adityatelange/hugo-PaperMod"
+  repo = "https://github.com/adityatelange/hugo-PaperMod"
