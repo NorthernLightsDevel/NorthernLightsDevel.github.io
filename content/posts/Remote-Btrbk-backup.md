@@ -69,11 +69,20 @@ To avoid root needing to log in over SSH
    logout
    # Now we are back at the root shell.
    ```
-## 3.2 Create backup user to send backups on each source machine
+## 3.2 Give backupuser access to execute required commands as root on the backup host
+   ```bash
+   visudo -f /etc/sudoers.d/btrbk_permissions
+   ```
+   ```ini
+   backupuser ALL=(root) NOPASSWD: /usr/bin/btrbk *
+   backupuser ALL=(root) NOPASSWD: /usr/sbin/btrfs *
+   backupuser ALL=(root) NOPASSWD: /usr/bin/readlink *
+   ```
+## 3.3 Create backup user to send backups on each source machine
    ```bash
    useradd -m -U backupuser
    ```
-## 3.3 Give backupuser access to execute btrbk commands as root on each source machine
+## 3.4 Give backupuser access to execute btrbk commands as root on each source machine
    ```bash
    visudo -f /etc/sudoers.d/btrbk_permissions
    ```
@@ -81,10 +90,9 @@ To avoid root needing to log in over SSH
    backupuser ALL=(ALL) NOPASSWD: /usr/bin/btrbk *
    ```
 # 4. Set up SSH Key-based login
-On each client: Create a config entry for the backup host for the backupuser
+On each client: Create a config entry for the backup host for the `root` user
    ```bash
-   sudo -su backupuser
-   sudo -u backupuser ssh-keygen -t ed25519
+   ssh-keygen -t ed25519
    vi ~/.ssh/config
    ```
    ```yaml,config
@@ -95,35 +103,36 @@ On each client: Create a config entry for the backup host for the backupuser
    ```
    ```bash
    ssh-copy-id backupserver
-   logout
    ```
 # 5. Configure `btrbk` on each client machine
 Example `/etc/btrbk/btrbk.conf`
 ```conf
+# /etc/btrbk/btrbk.conf
 timestamp_format          long
 snapshot_dir              /.snapshots
 
-target                    ssh://backup-server/mnt/backups/$(hostnamectl hostname | tr -d '\n')/
+target                    ssh://backupserver/mnt/backups/work-laptop/
 target_preserve_min       2d
 target_preserve           *y 24m 6w 14d
+backend_remote            btrfs-progs-sudo
 
-group hourly
-    subvolume               /
-        snapshot_preserve_min 1d
-        snapshot_preserve     *y 18m 6w 14d
-        snapshot_create       ondemand
-    subvolume               /home
-        snapshot_preserve_min 1d
-        snapshot_preserve     *y 18m 6w 14d
-        snapshot_create       onchange
-    subvolume               /root
-        snapshot_preserve_min 1d
-        snapshot_preserve     *y 18m 6w 14d
-        snapshot_create       onchange
-    subvolume               /boot
-        snapshot_preserve_min 1d
-        snapshot_preserve     *y 18m 6w 14d
-        snapshot_create       ondemand
+group                     hourly
+  subvolume               /
+    snapshot_preserve_min 1d
+    snapshot_preserve     *y 18m 6w 14d
+    snapshot_create       ondemand
+  subvolume               /home
+    snapshot_preserve_min 1d
+    snapshot_preserve     *y 18m 6w 14d
+    snapshot_create       onchange
+  subvolume               /root
+    snapshot_preserve_min 1d
+    snapshot_preserve     *y 18m 6w 14d
+    snapshot_create       onchange
+  subvolume               /boot
+    snapshot_preserve_min 1d
+    snapshot_preserve     *y 18m 6w 14d
+    snapshot_create       ondemand
 ```
 # 6. Modify hourly backups service
 ## 6.1 Execute btrbk commands as sudo
