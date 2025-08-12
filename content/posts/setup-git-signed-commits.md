@@ -2,7 +2,7 @@
 date = '2025-08-12T14:58:03+02:00'
 draft = true
 title = 'Setup Git Signed Commits'
-+true++
++++
 
 To make it easier to validate what commits I have made, I have set up git to use signed committs on all of my computers. To simplify my setup, most of my configuration is the same across all computers, found in my dotfiles (here)[https://github.com/NorthernLightsDevel/dotfiles/blob/main/.gitconfig]
 **Here is my gitconfig**:
