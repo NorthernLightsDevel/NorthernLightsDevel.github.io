@@ -16,7 +16,7 @@ buildExpired = false
 
 [params]
   env = "production"
-  title = "NorthernLightsDev"
+  title = "NorthernLightsDevel"
   description = "A blog about C# development, Linux sysadmin, and other tech musings."
   keywords = ["Blog", "C#", ".NET", "Linux", "SysAdmin", "Portfolio"]
   author = 'Per Øyvind Håvelsrud'
@@ -43,12 +43,12 @@ buildExpired = false
   mainSections = ["posts"] # This is the key change
 
   [params.label]
-    text = "NorthernLightsDev"
+    text = "NorthernLightsDevel"
     icon = "images/logo.png"
     iconHeight = 35
 
   [params.homeInfoParams]
-    Title = "Welcome to NorthernLightsDev"
+    Title = "Welcome to NorthernLightsDevel"
     Content = "A blog exploring the worlds of C# development, Linux system administration, and personal tech projects. Grab a coffee and stay awhile!"
 
   [[params.socialIcons]]
