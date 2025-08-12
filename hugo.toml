@@ -1,6 +1,6 @@
 baseURL = "https://northernlightsdevel.github.io/"
 languageCode = "en-us"
-title = "NorthernLightsDev"
+title = "NorthernLightsDevel"
 theme = ["PaperMod", "NorthernLightsDev"]
 
 enableRobotsTXT = true
