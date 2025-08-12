@@ -9,11 +9,11 @@ This post will introduce the overall structure of my Neovim configuration, locat
 # Structure and origins
 The initial configuration is based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim), I have extracted configurations into separate files to improve modularity and readability for myself.
 all modules are placed inside a subdirectory named after my local username `peroyhav` and this is the only module still loaded by kickstart's init.lua
-- `nvim/init.lua`: This is the entry point of my neovim config. It was originaly copied from `kickstart.nvim`, but now, it only loads the `peroyhav` module.
+- `nvim/init.lua`: This is the entry point of my neovim config. It was initially based on `kickstart.nvim`, but now, it only loads the `peroyhav` module.
 - `nvim/lua/peroyhav/init.lua`: This is the entry point of the `peroyhav` module, where all configurations have been moved to, if you would like, you could rename the directory, and the module-name would match the directory.
 - `nvim/lua/peroyhav/set.lua`: This file contains general Neovim options such as tab settings, line numbers, mouse support, clipboard synchronization, undo history, and search behavior.
 - `nvim/lua/peroyhav/remap.lua`: This file defines custom keymaps for various actions like clearing search highlights, navigating splits, toggling diagnostics, and quick access to system clipboard operations. It also includes keymaps for building and running .NET projects (`dotnet build`, `dotnet run`)
-- `nvim/lua/peroyhav/lazy_init.lua`: This file initializes lazy.nvim, a modern plugin manager that emphazises performance through lazy loading.
+- `nvim/lua/peroyhav/lazy_init.lua`: This file initializes lazy.nvim, a modern plugin manager that emphasizes performance through lazy loading.
   - **Installation** `lazy.nvim` setup is installed by cloning its Git repository into nvim's data path, if it's not already present.
   - **Setup**: The `lazy.nvim` setup is configured in `nvim/lua/peroyhav/lazy_init.lua`, it sets `spec = "peroyhav.lazy"`, indicating that plugin specifications should be loaded from the `nvim/lua/peroyhav/lazy` directory.
   - **Plugin definition**: Individual plugins are defined as lua modules within the `nvim/lua/peroyhav/lazy` directory. examples include (`gitsigns.lua`, `treesitter.lua`, `lsp.lua`). Each module, typicaly returns a table with the plugin name, configuration options, and dependencies.

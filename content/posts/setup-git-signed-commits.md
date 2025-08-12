@@ -4,8 +4,9 @@ draft = false
 title = 'Setup Git Signed Commits'
 +++
 
-To make it easier to validate what commits I have made, I have set up git to use signed committs on all of my computers. To simplify my setup, most of my configuration is the same across all computers, found in my dotfiles (here)[https://github.com/NorthernLightsDevel/dotfiles/blob/main/.gitconfig]
-**Here is my gitconfig**:
+o easily validate my commits, I've configured Git to use signed commits across all my computers. 
+Most of my configuration is consistent across all computers, managed within my dotfiles on GitHub.
+**`~/.gitconfig`**:
 ```ini,config
 [include]
 	path = ~/.gitsecrets
@@ -60,10 +61,11 @@ To make it easier to validate what commits I have made, I have set up git to use
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
 ```
-As you may or may not see, this config imports a .gitsecrets file from my home directory. This secrets file is where gpg signing key, git username, email and other secrets are stored.
-to set up the .gitsecrets file, we need to execute a couple of steps.
+As you may or may not see, this config imports a .gitsecrets file from my home directory. This secrets file stores my GPG signing key, Git username, email, and other sensitive information.
+## Settin up the .gitsecrets file
+Setting up the `.gitsecrets` file involves a few steps.
 1. Determine the name we want to use for committing to GIT repositories. let's say we use the name `John Doe` with the email `John@example.com`
-2. Now we need to create the gpg singing key for John Doe if it does not already exist, this is easiest done by running `gpg --gen-key` command, and entering the name, and email when prompted. Because we want to ensure that the signing key can only be used by us, we should always provide a passphase we need to enter when signing commits.
+2. Now we need to create the gpg signing key for John Doe if it does not already exist, this is easiest done by running `gpg --gen-key` command, and entering the name, and email when prompted. To ensure the signing key can only be used by you, always provide a passphrase that must be entered when signing commits.
 3. edit `~/.gitsecrets` and add the key info e.g.
    ```ini,config
    [user]
@@ -81,7 +83,7 @@ to set up the .gitsecrets file, we need to execute a couple of steps.
    ```
    where the key id is part of the sec line.
 
-If you followed these steps, you should be able to sign your committs, however, signing commits if they are not verified might not make much sense, so we also want to export our key and import it to our git host server, wether it's gitlab, github, bitbucket or something else.
+Once these steps are complete, you can sign your commits. However, to ensure commit verification, you should also export your public key and import it to your Git hosting provider, whether it's GitLab, GitHub, Bitbucket, or another service.
 - **Export public key**:
   ```bash
   gpg --armor --export john@example.com

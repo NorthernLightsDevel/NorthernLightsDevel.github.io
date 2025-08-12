@@ -7,9 +7,9 @@ title = 'Btrbk Setup'
 # Setting up BTRBK
 After installing Arch Linux, I wanted to set up a tool to automate the creation of Btrfs snapshots on an hourly basis.
 
-I had used Timeshift previously and knew it had support for Btrfs, so I initially tried to configure it. However, because my subvolume layout doesn't match what Timeshift expects, this approach was fruitless. I decided to use `btrbk` instead. While `btrbk` doesn't have a graphical UI like Timeshift, I figured it's not necessary since you don't normally need to browse backups graphically, and the snapshots are easily accessible in the `/.snapshots` directory anyway.
+I had used Timeshift previously and knew it had support for Btrfs, so I initially tried to configure it. However, because my subvolume layout doesn't match what Timeshift expects, this approach was fruitless. I decided to use `btrbk` instead. While `btrbk` doesn't have a graphical UI like Timeshift, I determined that a graphical UI is not necessary since I don't normally need to browse backups graphically, and the snapshots are easily accessible in the `/.snapshots` directory whenever I need them.
 
-To set up `btrbk` is fairly straightforward, just follow these steps
+Setting up `btrbk` is straightforward, just follow these steps.
 1. Install btrbk from the official repository
    `sudo pacman -S btrbk`
 2. Configure btrbk, by editing the primary configuration file:
